@@ -1,0 +1,372 @@
+[gd_scene format=3 uid="uid://bp6yqhv44wlw0"]
+
+[ext_resource type="Script" uid="uid://bvrmeni48vtwi" path="res://scripts/math_game.gd" id="1_18yvs"]
+[ext_resource type="AudioStream" uid="uid://d1eur0b5g7l0j" path="res://audio/Characters/Baldi/MathGame/Praises/BAL_Praise1.wav" id="2_3brbj"]
+[ext_resource type="Shader" uid="uid://6hkvqedt6jfm" path="res://shaders/round_alpha.tres" id="2_fckko"]
+[ext_resource type="Texture2D" uid="uid://dq7li4qika4hc" path="res://graphics/Characters/Baldi/MathTalk.png" id="2_h13hb"]
+[ext_resource type="AudioStream" uid="uid://fib73o68n5h4" path="res://audio/Characters/Baldi/MathGame/Praises/BAL_Praise2.wav" id="3_lmnlv"]
+[ext_resource type="AudioStream" uid="uid://b821jvtvfm1t6" path="res://audio/Characters/Baldi/MathGame/Praises/BAL_Praise3.wav" id="4_dcwby"]
+[ext_resource type="AudioStream" uid="uid://ckp2nkd1jybi0" path="res://audio/Characters/Baldi/MathGame/Praises/BAL_Praise4.wav" id="5_t84fk"]
+[ext_resource type="AudioStream" uid="uid://cyhotsuegl1ch" path="res://audio/Characters/Baldi/MathGame/Praises/BAL_Praise5.wav" id="6_icm6d"]
+[ext_resource type="Texture2D" uid="uid://bxclnf6uqnih6" path="res://graphics/YCTPTextures/YCTP.png" id="9_dxo78"]
+[ext_resource type="Texture2D" uid="uid://cm1xwxv2vlw8b" path="res://graphics/Characters/Baldi/BaldiFrown.png" id="10_nepyx"]
+[ext_resource type="AudioStream" uid="uid://davduwfvy3sxq" path="res://audio/Music/mus_Learn.wav" id="11_oql8b"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_0ss3t"]
+streams_count = 5
+stream_0/stream = ExtResource("2_3brbj")
+stream_1/stream = ExtResource("3_lmnlv")
+stream_2/stream = ExtResource("4_dcwby")
+stream_3/stream = ExtResource("5_t84fk")
+stream_4/stream = ExtResource("6_icm6d")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6f1wk"]
+shader = ExtResource("2_fckko")
+
+[sub_resource type="Animation" id="Animation_65j2p"]
+resource_name = "Anger"
+length = 5.571429
+step = 0.004166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LiveBaldiReaction:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LiveBaldiReaction:vframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LiveBaldiReaction:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 5.2605042),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 71]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LiveBaldiReaction:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("10_nepyx")]
+}
+
+[sub_resource type="Animation" id="Animation_8yfn4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LiveBaldiReaction:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LiveBaldiReaction:vframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LiveBaldiReaction:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LiveBaldiReaction:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_h13hb")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_804ec"]
+_data = {
+&"Anger": SubResource("Animation_65j2p"),
+&"RESET": SubResource("Animation_8yfn4")
+}
+
+[node name="MathGame" type="CanvasLayer" unique_id=2132595369]
+process_mode = 3
+layer = 10
+script = ExtResource("1_18yvs")
+praises = SubResource("AudioStreamRandomizer_0ss3t")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=717033468]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Pad" type="Control" parent="." unique_id=1445089009]
+material = SubResource("ShaderMaterial_6f1wk")
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WhiteRect" type="ColorRect" parent="Pad" unique_id=1925792048]
+layout_mode = 0
+offset_left = -239.0
+offset_top = -113.0
+offset_right = 138.0
+offset_bottom = 155.0
+
+[node name="WhiteRect2" type="ColorRect" parent="Pad" unique_id=711274916]
+layout_mode = 0
+offset_left = -113.0
+offset_top = 46.0
+offset_right = 121.0
+offset_bottom = 138.0
+
+[node name="Questions" type="Label" parent="Pad" unique_id=2141025798]
+use_parent_material = true
+layout_mode = 0
+offset_left = -157.0
+offset_top = -90.0
+offset_right = 117.0
+offset_bottom = 33.0
+theme_override_font_sizes/font_size = 26
+text = "SOLVE MATH Q"
+autowrap_mode = 2
+
+[node name="Answer" type="LineEdit" parent="Pad" unique_id=1490097820]
+use_parent_material = true
+layout_mode = 0
+offset_left = -88.0
+offset_top = 64.0
+offset_right = 130.0
+offset_bottom = 140.0
+placeholder_text = "ENTER ANSWER"
+keep_editing_on_text_submit = true
+deselect_on_focus_loss_enabled = false
+virtual_keyboard_type = 2
+caret_blink = true
+
+[node name="Result1" type="TextureRect" parent="Pad" unique_id=654839194]
+layout_mode = 0
+offset_left = -216.0
+offset_top = -88.0
+offset_right = -185.0
+offset_bottom = -57.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Result2" type="TextureRect" parent="Pad" unique_id=1978982890]
+layout_mode = 0
+offset_left = -217.0
+offset_top = -38.0
+offset_right = -186.0
+offset_bottom = -7.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Result3" type="TextureRect" parent="Pad" unique_id=1868938121]
+layout_mode = 0
+offset_left = -218.0
+offset_top = 6.0
+offset_right = -187.0
+offset_bottom = 37.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LiveBaldiReaction" type="Sprite2D" parent="Pad" unique_id=1059262341]
+position = Vector2(-178.00002, 105)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_h13hb")
+hframes = 5
+vframes = 5
+region_rect = Rect2(1.825, 1.478, 2.165, 1.15)
+
+[node name="Yctp2NoButtons" type="Sprite2D" parent="Pad" unique_id=92791547]
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("9_dxo78")
+
+[node name="BaldiAnimator" type="AnimationPlayer" parent="Pad" unique_id=844803523]
+libraries/ = SubResource("AnimationLibrary_804ec")
+
+[node name="Keypad" type="Control" parent="Pad" unique_id=1120871094]
+anchors_preset = 0
+offset_left = 226.0
+offset_right = 226.0
+
+[node name="0" type="TextureButton" parent="Pad/Keypad" unique_id=1022636268]
+layout_mode = 0
+offset_left = -11.0
+offset_top = 35.0
+offset_right = 36.0
+offset_bottom = 82.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="1" type="TextureButton" parent="Pad/Keypad" unique_id=1858725922]
+layout_mode = 0
+offset_left = -55.0
+offset_top = -17.0
+offset_right = -8.0
+offset_bottom = 30.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="2" type="TextureButton" parent="Pad/Keypad" unique_id=1245768258]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -15.0
+offset_right = 35.0
+offset_bottom = 32.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="3" type="TextureButton" parent="Pad/Keypad" unique_id=621488018]
+layout_mode = 0
+offset_left = 34.0
+offset_top = -16.0
+offset_right = 81.0
+offset_bottom = 31.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="4" type="TextureButton" parent="Pad/Keypad" unique_id=1620020813]
+layout_mode = 0
+offset_left = -55.0
+offset_top = -63.0
+offset_right = -8.0
+offset_bottom = -16.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="5" type="TextureButton" parent="Pad/Keypad" unique_id=233388871]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -60.0
+offset_right = 35.0
+offset_bottom = -13.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="6" type="TextureButton" parent="Pad/Keypad" unique_id=1264296128]
+layout_mode = 0
+offset_left = 34.0
+offset_top = -59.0
+offset_right = 81.0
+offset_bottom = -12.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="7" type="TextureButton" parent="Pad/Keypad" unique_id=308549323]
+layout_mode = 0
+offset_left = -57.0
+offset_top = -105.0
+offset_right = -10.0
+offset_bottom = -58.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="8" type="TextureButton" parent="Pad/Keypad" unique_id=1363761785]
+layout_mode = 0
+offset_left = -9.0
+offset_top = -105.0
+offset_right = 38.0
+offset_bottom = -58.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="9" type="TextureButton" parent="Pad/Keypad" unique_id=1970761152]
+layout_mode = 0
+offset_left = 33.0
+offset_top = -104.0
+offset_right = 80.0
+offset_bottom = -57.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="C" type="TextureButton" parent="Pad/Keypad" unique_id=1742469073]
+layout_mode = 0
+offset_left = -58.0
+offset_top = 33.0
+offset_right = -11.0
+offset_bottom = 80.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="-" type="TextureButton" parent="Pad/Keypad" unique_id=1849059693]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 33.0
+offset_right = 80.0
+offset_bottom = 80.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="OK" type="TextureButton" parent="Pad/Keypad" unique_id=276135340]
+layout_mode = 0
+offset_left = -44.0
+offset_top = 80.0
+offset_right = 79.0
+offset_bottom = 204.0
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="MathDialogue" type="AudioStreamPlayer" parent="." unique_id=1951921589]
+autoplay = true
+bus = &"Dialogue"
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=546320485]
+stream = ExtResource("11_oql8b")
+bus = &"Music"
+
+[connection signal="text_changed" from="Pad/Answer" to="." method="_on_LineEdit_text_changed"]
+[connection signal="text_submitted" from="Pad/Answer" to="." method="_on_answer_text_submitted"]
