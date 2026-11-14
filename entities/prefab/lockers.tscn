@@ -1,0 +1,113 @@
+[gd_scene load_steps=13 format=3 uid="uid://crwtw4rwda8cl"]
+
+[ext_resource type="Texture2D" uid="uid://dpg4u31pj8dm0" path="res://graphics/SchoolHouse/Locker.png" id="1_kqer8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0lthd"]
+size = Vector3(2, 8, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eofa0"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.5647059, 0, 0.2509804, 1)
+grow = true
+grow_amount = 0.15
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o84nf"]
+next_pass = SubResource("StandardMaterial3D_eofa0")
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 1
+albedo_texture = ExtResource("1_kqer8")
+texture_filter = 0
+stencil_mode = 1
+stencil_flags = 2
+stencil_color = Color(0.5647059, 0, 0.2509804, 1)
+stencil_outline_thickness = 0.15
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rh3xh"]
+albedo_texture = ExtResource("1_kqer8")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_fl3k3"]
+material = SubResource("StandardMaterial3D_rh3xh")
+size = Vector2(2, 8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a0x1t"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.5647059, 0, 0.2509804, 1)
+grow = true
+grow_amount = 0.15
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eva1o"]
+next_pass = SubResource("StandardMaterial3D_a0x1t")
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(1, 0, 0, 1)
+stencil_mode = 1
+stencil_flags = 2
+stencil_color = Color(0.5647059, 0, 0.2509804, 1)
+stencil_outline_thickness = 0.15
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ows5"]
+albedo_color = Color(1, 0, 0, 1)
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_cxiyc"]
+material = SubResource("StandardMaterial3D_0ows5")
+size = Vector2(2, 8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hhuhx"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.5647059, 0, 0.2509804, 1)
+grow = true
+grow_amount = 0.15
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5buos"]
+next_pass = SubResource("StandardMaterial3D_hhuhx")
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(1, 0, 0, 1)
+texture_filter = 0
+stencil_mode = 1
+stencil_flags = 2
+stencil_color = Color(0.5647059, 0, 0.2509804, 1)
+stencil_outline_thickness = 0.15
+
+[node name="Lockers" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_0lthd")
+
+[node name="LockerFace" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+material_override = SubResource("StandardMaterial3D_o84nf")
+mesh = SubResource("QuadMesh_fl3k3")
+
+[node name="LockerFace2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1, 0, 0)
+material_override = SubResource("StandardMaterial3D_eva1o")
+mesh = SubResource("QuadMesh_cxiyc")
+
+[node name="LockerFace3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -1, 0, 0)
+material_override = SubResource("StandardMaterial3D_5buos")
+mesh = SubResource("QuadMesh_cxiyc")
