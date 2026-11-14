@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm45bl2u4xnoc"]
+
+[ext_resource type="Shader" uid="uid://6hkvqedt6jfm" path="res://shaders/round_alpha.tres" id="1_8jokm"]
+[ext_resource type="Script" uid="uid://bjjnt80cyxlw" path="res://scripts/warning.gd" id="1_lv2aw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lv2aw"]
+shader = ExtResource("1_8jokm")
+
+[node name="Warning" type="CanvasLayer"]
+script = ExtResource("1_lv2aw")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="RichTextLabel" parent="."]
+material = SubResource("ShaderMaterial_lv2aw")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "[center][color=RED]WARNING:
+[color=WHITE]All assets in this port were traced directly from gameplay videos by YouTubers playing the \"[color=GREEN]Baldi's Basics In Funkin' 3rd Anniversary Reskin![color=WHITE]\" mod; I took screenshots and traced them using the Ibis[color=LIGHTBLUE]Paint [color=GRAY]X [color=WHITE]app. Anyway, redrawing EVERYTHING from the original was a [color=RED]massive headache[color=WHITE]. Well, that's all—have fun."
