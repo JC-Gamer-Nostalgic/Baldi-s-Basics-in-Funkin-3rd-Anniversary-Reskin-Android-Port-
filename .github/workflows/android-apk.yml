@@ -9,7 +9,7 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.6
+      image: barichello/godot-ci:4.6.3
     steps:
       - name: Baixar código do repositório
         uses: actions/checkout@v4
@@ -17,26 +17,11 @@ jobs:
       - name: Configurar Templates, Keystore e EditorSettings
         run: |
           mkdir -p ~/.local/share/godot/export_templates
-          cp -rn /root/.local/share/godot/export_templates/* ~/.local/share/godot/export_templates/ || true
+          cp -r /root/.local/share/godot/export_templates/* ~/.local/share/godot/export_templates/ || true
           keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999
           mkdir -p ~/.config/godot
-          python3 -c '
-          import os
-          ws = os.environ["GITHUB_WORKSPACE"]
-          content = f"""[gd_resource type="EditorSettings" format=3]
-
-          [resource]
-          export/android/java_sdk_path = "/usr/lib/jvm/java-17-openjdk-amd64"
-          export/android/android_sdk_path = "/usr/lib/android-sdk"
-          export/android/debug_keystore = "{ws}/debug.keystore"
-          export/android/debug_keystore_user = "androiddebugkey"
-          export/android/debug_keystore_pass = "android"
-          """
-          lines = [line.strip() for line in content.strip().splitlines()]
-          for ver in ["4.6", "4.6.3"]:
-              with open(os.path.expanduser(f"~/.config/godot/editor_settings-{ver}.tres"), "w") as f:
-                  f.write("\n".join(lines) + "\n")
-          '
+          printf '[gd_resource type="EditorSettings" format=3]\n\n[resource]\nexport/android/java_sdk_path = "/usr/lib/jvm/java-17-openjdk-amd64"\nexport/android/android_sdk_path = "/usr/lib/android-sdk"\nexport/android/debug_keystore = "%s/debug.keystore"\nexport/android/debug_keystore_user = "androiddebugkey"\nexport/android/debug_keystore_pass = "android"\n' "$GITHUB_WORKSPACE" > ~/.config/godot/editor_settings-4.6.tres
+          cp ~/.config/godot/editor_settings-4.6.tres ~/.config/godot/editor_settings-4.6.3.tres
 
       - name: Importar recursos e Exportar APK
         run: |
@@ -47,5 +32,5 @@ jobs:
       - name: Disponibilizar APK para Download
         uses: actions/upload-artifact@v4
         with:
-          name: Baldis Basics in Funkin 3rd Anniversary Reskin!
+          name: Baldis Basics in Funkin 3rd Anniversary Reskin
           path: build/android/BBIFAndroidRelease.apk
