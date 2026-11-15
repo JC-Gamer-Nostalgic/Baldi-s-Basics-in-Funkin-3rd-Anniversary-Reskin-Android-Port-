@@ -14,20 +14,13 @@ jobs:
       - name: Baixar código do repositório
         uses: actions/checkout@v4
 
-      - name: Verificar arquivos e configurar ambiente
+      - name: Configurar ambiente
         run: |
-          echo "=== ARQUIVOS NA RAIZ ==="
-          ls -la
-          echo "=== VERSAO DO GODOT ==="
-          godot --version
-          echo "=== TEMPLATES DISPONIVEIS ==="
-          ls -la /root/.local/share/godot/export_templates/ || true
           mkdir -p ~/.local/share/godot/export_templates
           cp -r /root/.local/share/godot/export_templates/* ~/.local/share/godot/export_templates/ || true
           
           JAVA_DIR=$(dirname $(dirname $(readlink -f $(which javac))))
           SDK_DIR="${ANDROID_HOME:-/usr/lib/android-sdk}"
-          echo "Java: $JAVA_DIR | SDK: $SDK_DIR"
           
           keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999
           mkdir -p ~/.config/godot
@@ -38,10 +31,12 @@ jobs:
         run: |
           mkdir -p build/android
           godot --headless --import || true
-          godot --headless --export-debug "Android" build/android/jogo.apk 2>&1 | tee export.log || (echo "=== MOTIVO DO ERRO ===" && grep -iE "error|fail|template|preset|keystore|sdk|jdk" export.log | tail -n 25 && exit 1)
+          godot --headless --export-debug "Android" build/android/BBIFAndroidRelease.apk
+          ls -lh build/android/
 
       - name: Disponibilizar APK para Download
         uses: actions/upload-artifact@v4
         with:
-          name: Baldis Basics in Funkin 3rd Anniversary Reskin
+          name: BBIFAndroidRelease-apk
           path: build/android/BBIFAndroidRelease.apk
+          if-no-files-found: error
