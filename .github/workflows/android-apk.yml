@@ -9,25 +9,36 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.6
+      image: barichello/godot-ci:4.6.3
     steps:
       - name: Baixar código do repositório
         uses: actions/checkout@v4
 
-      - name: Configurar Templates, Keystore e EditorSettings
+      - name: Verificar arquivos e configurar ambiente
         run: |
+          echo "=== ARQUIVOS NA RAIZ ==="
+          ls -la
+          echo "=== VERSAO DO GODOT ==="
+          godot --version
+          echo "=== TEMPLATES DISPONIVEIS ==="
+          ls -la /root/.local/share/godot/export_templates/ || true
           mkdir -p ~/.local/share/godot/export_templates
           cp -r /root/.local/share/godot/export_templates/* ~/.local/share/godot/export_templates/ || true
+          
+          JAVA_DIR=$(dirname $(dirname $(readlink -f $(which javac))))
+          SDK_DIR="${ANDROID_HOME:-/usr/lib/android-sdk}"
+          echo "Java: $JAVA_DIR | SDK: $SDK_DIR"
+          
           keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999
           mkdir -p ~/.config/godot
-          printf '[gd_resource type="EditorSettings" format=3]\n\n[resource]\nexport/android/java_sdk_path = "/usr/lib/jvm/java-17-openjdk-amd64"\nexport/android/android_sdk_path = "/usr/lib/android-sdk"\nexport/android/debug_keystore = "%s/debug.keystore"\nexport/android/debug_keystore_user = "androiddebugkey"\nexport/android/debug_keystore_pass = "android"\n' "$GITHUB_WORKSPACE" > ~/.config/godot/editor_settings-4.6.tres
+          printf '[gd_resource type="EditorSettings" format=3]\n\n[resource]\nexport/android/java_sdk_path = "%s"\nexport/android/android_sdk_path = "%s"\nexport/android/debug_keystore = "%s/debug.keystore"\nexport/android/debug_keystore_user = "androiddebugkey"\nexport/android/debug_keystore_pass = "android"\n' "$JAVA_DIR" "$SDK_DIR" "$GITHUB_WORKSPACE" > ~/.config/godot/editor_settings-4.6.tres
           cp ~/.config/godot/editor_settings-4.6.tres ~/.config/godot/editor_settings-4.6.3.tres
 
-      - name: Importar recursos e Exportar APK
+      - name: Exportar APK
         run: |
           mkdir -p build/android
           godot --headless --import || true
-          godot --headless --verbose --export-debug "Android" build/android/jogo.apk
+          godot --headless --export-debug "Android" build/android/jogo.apk 2>&1 | tee export.log || (echo "=== MOTIVO DO ERRO ===" && grep -iE "error|fail|template|preset|keystore|sdk|jdk" export.log | tail -n 25 && exit 1)
 
       - name: Disponibilizar APK para Download
         uses: actions/upload-artifact@v4
